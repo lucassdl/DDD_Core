@@ -10,15 +10,15 @@ namespace Infra.Repository
     public class RepositoryGeneric<T> : IGeneric<T>, IDisposable where T : class
     {
         private DbContextOptionsBuilder<Context> _OptionsBuilder;
-        
-        ~RepositoryGeneric()
-        {
-            Dispose(false);
-        }
 
         public RepositoryGeneric()
         {
             _OptionsBuilder = new DbContextOptionsBuilder<Context>();
+        }
+
+        ~RepositoryGeneric()
+        {
+            Dispose(false);
         }
 
         public void Adicionar(T entidade)
@@ -39,6 +39,14 @@ namespace Infra.Repository
             }
         }
 
+        public List<T> Listar()
+        {
+            using (var banco = new Context(_OptionsBuilder.Options))
+            {
+                return banco.Set<T>().ToList();
+            }
+        }
+
         public void Deletar(int id)
         {
             using(var banco = new Context(_OptionsBuilder.Options))
@@ -46,14 +54,6 @@ namespace Infra.Repository
                 var entidade = banco.Set<T>().Find(id);
                 banco.Remove(entidade);
                 banco.SaveChanges();
-            }
-        }
-
-        public List<T> Listar()
-        {
-            using(var banco = new Context(_OptionsBuilder.Options))
-            {
-                return banco.Set<T>().ToList();
             }
         }
 

@@ -7,7 +7,7 @@ namespace Infra.Config
 {
     public class Context : DbContext
     {
-        public IConfiguration _IConfiguration { get; set; }
+        private IConfiguration _configuration { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -28,9 +28,9 @@ namespace Infra.Config
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json");
 
-            _IConfiguration = builder.Build();
+            _configuration = builder.Build();
 
-            return _IConfiguration.GetConnectionString("DefaultConnection");
+            return _configuration.GetConnectionString("DefaultConnection");
         }
     }
 }

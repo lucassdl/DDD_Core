@@ -8,11 +8,11 @@ namespace WebSite.Controllers
 {
     public class ProdutoController : Controller
     {
-        private readonly IApplicationProduto _IApplicationProduto;
+        private readonly IApplicationProduto _applicationProduto;
 
-        public ProdutoController(IApplicationProduto iApplicationProduto)
+        public ProdutoController(IApplicationProduto applicationProduto)
         {
-            _IApplicationProduto = iApplicationProduto;
+            _applicationProduto = applicationProduto;
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace WebSite.Controllers
             ViewData["Tituto"] = "Lista de Produtos";
             var produtosModel = new List<ProdutoModel>();
 
-            _IApplicationProduto.Listar()
+            _applicationProduto.Listar()
                 .ForEach(p => produtosModel.Add(new ProdutoModel() { Id = p.Id, NomeDoProduto = p.NomeDoProduto }));
 
             return View(produtosModel);
@@ -52,7 +52,7 @@ namespace WebSite.Controllers
         public IActionResult Salvar(ProdutoModel produto)
         {
             ViewData["Titulo"] = "Novo Produto";
-            _IApplicationProduto.Adicionar(new Produto() { Id = produto.Id, NomeDoProduto = produto.NomeDoProduto });
+            _applicationProduto.Adicionar(new Produto() { Id = produto.Id, NomeDoProduto = produto.NomeDoProduto });
 
             return RedirectToAction("Index");
         }
@@ -66,7 +66,7 @@ namespace WebSite.Controllers
         public IActionResult Editar(int Id)
         {
             ViewData["Tituto"] = "Editar Produto";
-            var produto = _IApplicationProduto.Listar().Find(p => p.Id == Id);
+            var produto = _applicationProduto.Listar().Find(p => p.Id == Id);
 
             return View(new ProdutoModel() { Id = produto.Id, NomeDoProduto = produto.NomeDoProduto });
         }
@@ -80,11 +80,11 @@ namespace WebSite.Controllers
         public IActionResult Editar(ProdutoModel produtoModel)
         {
             ViewData["Titulo"] = "Editar Produto";
-            var produto = _IApplicationProduto.Listar().Find(p => p.Id == produtoModel.Id);
+            var produto = _applicationProduto.Listar().Find(p => p.Id == produtoModel.Id);
 
             produto.NomeDoProduto = produtoModel.NomeDoProduto;
 
-            _IApplicationProduto.Atualizar(produto);
+            _applicationProduto.Atualizar(produto);
 
             return RedirectToAction("Index");
         }
@@ -98,7 +98,7 @@ namespace WebSite.Controllers
         public IActionResult Excluir(int Id)
         {
             ViewData["Titulo"] = "Deletar Produto";
-            var produto = _IApplicationProduto.Listar().Find(p => p.Id == Id);
+            var produto = _applicationProduto.Listar().Find(p => p.Id == Id);
 
             return View(new ProdutoModel() { Id = produto.Id, NomeDoProduto = produto.NomeDoProduto });
         }
@@ -112,7 +112,7 @@ namespace WebSite.Controllers
         public IActionResult Excluir(ProdutoModel produtoModel)
         {
             ViewData["Titulo"] = "Exclusão de Produto";
-            _IApplicationProduto.Deletar(produtoModel.Id);
+            _applicationProduto.Deletar(produtoModel.Id);
 
             return RedirectToAction("Index");
         }

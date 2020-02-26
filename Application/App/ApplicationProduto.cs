@@ -7,31 +7,31 @@ namespace Application.App
 {
     public class ApplicationProduto : IApplicationProduto
     {
-        IProduto _IProduto;
+        private readonly IProduto _produto;
 
-        public ApplicationProduto(IProduto iProduto)
+        public ApplicationProduto(IProduto produto)
         {
-            _IProduto = iProduto;
+            _produto = produto;
         }
 
-        public void Adicionar(Produto entidade)
+        public void Adicionar(Produto produto)
         {
-            _IProduto.Adicionar(entidade);
+            _produto.Adicionar(produto);
         }
 
-        public void Atualizar(Produto entidade)
+        public void Atualizar(Produto produto)
         {
-            _IProduto.Atualizar(entidade);
+            _produto.Atualizar(produto);
         }
 
         public void Deletar(int id)
         {
-            _IProduto.Deletar(id);
+            _produto.Deletar(id);
         }
 
         public List<Produto> Listar()
         {
-            return _IProduto.Listar();
+            return _produto.Listar();
         }
     }
 }
